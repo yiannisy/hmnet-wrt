@@ -1,0 +1,20 @@
+#!/bin/sh /etc/rc.common
+
+START=100
+
+boot() {
+	start
+}
+
+restart() {
+	stop
+	start
+}
+
+start() {
+	hmnetup &
+}
+
+stop() {
+	hmnetdown
+}

@@ -1,0 +1,20 @@
+#!/bin/sh /etc/rc.common
+
+START=105
+
+boot() {
+	   start
+}
+
+restart() {
+	  stop
+	  start
+}
+
+start() {
+	  check_status &
+}
+
+stop() {
+	   killall check_status
+}

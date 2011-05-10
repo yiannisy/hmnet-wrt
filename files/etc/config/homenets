@@ -1,0 +1,4 @@
+config 'ap' 'homenets_ap'
+	option 'conf_server' 'openflow3.stanford.edu'
+	option 'version' '0.0.1'
+	option 'img_filename' 'homenets-20110203-sysupgrade.bin'

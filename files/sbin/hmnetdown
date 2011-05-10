@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "stopping hmnet daemon..."
+killall snmp_tunnel
+killall hmnetup
+
+#turnoff QSS led
+echo 0 > /sys/class/leds/tl-wr1043nd\:green\:qss/brightness

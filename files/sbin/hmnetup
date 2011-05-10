@@ -1,0 +1,195 @@
+#!/bin/sh
+
+# stupid init for cpu script
+u1=1
+n1=1
+s1=1
+i1=3
+u2=1
+n2=1
+s2=1
+i2=3
+
+HOMENETS_ROOT=/lib/hmnet/
+UNINIT_STRING=' No Such Instance currently exists at this OID'
+VERSION="0.0.2"
+TUNNEL_SERVER=`uci get homenets.homenets_ap.conf_server`
+DPID=`uci get openflow.@ofswitch[0].dpid`
+SLEEP_INTERVAL=10
+IMAGES_SERVER="http://www.openflowswitch.org/downloads/openwrt-images/homenets"
+SNMP_TUNNEL_PORT=6693
+OPENFLOW_PORT=6633
+CHECK_INTERVAL=10
+SNMP_TRAPD_PORT=1162
+
+logfile="/tmp/log/hmnet.log"
+
+get_cpu_usage (){
+cpu_line=`cat /proc/stat | grep cpu\ `
+u2=`echo $cpu_line | cut -d\  -f2`
+n2=`echo $cpu_line | cut -d\  -f3`
+s2=`echo $cpu_line | cut -d\  -f4`
+i2=`echo $cpu_line | cut -d\  -f5`
+total=$(($i2 -$i1))
+usage=$(($u2 - $u1 + $n2 - $n1 + $s2 - $s1))
+cpu=$((100*${usage} / ${total}))
+u1=$u2
+n1=$n2
+s1=$s2
+i1=$i2
+
+echo $cpu > /var/run/cpu_usage
+}
+
+
+log () {
+	logger [HOMENETS][${DPID}] : $1 
+}
+
+set_snmp_extensions () {
+    # set extensions to local daemon.
+	log "setting up snmp extensions..."
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"setofcntr\" s "${HOMENETS_ROOT}/set_of_controller.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"setofcntr\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getofcntr\" s "${HOMENETS_ROOT}/get_of_controller.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getofcntr\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getofdpid\" s "${HOMENETS_ROOT}/get_of_dpid.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getofdpid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"setmacaddress\" s "${HOMENETS_ROOT}/set_mac_address.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"setmacaddress\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getmacaddress\" s "${HOMENETS_ROOT}/get_mac_address.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getmacaddress\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"setswversion\" s "${HOMENETS_ROOT}/set_sw_version.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"setswversion\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getswversion\" s "${HOMENETS_ROOT}/get_sw_version.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getswversion\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getcpuusage\" s "${HOMENETS_ROOT}/get_cpu_usage.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getcpuusage\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getactiveflows\" s "${HOMENETS_ROOT}/get_active_flows.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getactiveflows\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"create_wlan0_ssid\" s "${HOMENETS_ROOT}/create_wlan0_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"create_wlan0_ssid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"delete_wlan0_ssid\" s "${HOMENETS_ROOT}/delete_wlan0_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"delete_wlan0_ssid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_ssid_name\" s "${HOMENETS_ROOT}/set_wlan0_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_ssid_name\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_encryption\" s "${HOMENETS_ROOT}/set_wlan0_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_encryption\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_encryption_key\" s "${HOMENETS_ROOT}/set_wlan0_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_encryption_key\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"create_wlan1_ssid\" s "${HOMENETS_ROOT}/create_wlan1_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"create_wlan1_ssid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"delete_wlan1_ssid\" s "${HOMENETS_ROOT}/delete_wlan1_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"delete_wlan1_ssid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_ssid_name\" s "${HOMENETS_ROOT}/set_wlan1_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_ssid_name\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_encryption\" s "${HOMENETS_ROOT}/set_wlan1_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_encryption\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_encryption_key\" s "${HOMENETS_ROOT}/set_wlan1_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_encryption_key\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"create_wlan2_ssid\" s "${HOMENETS_ROOT}/create_wlan2_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"create_wlan2_ssid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"delete_wlan2_ssid\" s "${HOMENETS_ROOT}/delete_wlan2_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"delete_wlan2_ssid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_ssid_name\" s "${HOMENETS_ROOT}/set_wlan2_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_ssid_name\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_encryption\" s "${HOMENETS_ROOT}/set_wlan2_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_encryption\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_encryption_key\" s "${HOMENETS_ROOT}/set_wlan2_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_encryption_key\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"create_wlan3_ssid\" s "${HOMENETS_ROOT}/create_wlan3_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"create_wlan3_ssid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"delete_wlan3_ssid\" s "${HOMENETS_ROOT}/delete_wlan3_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"delete_wlan3_ssid\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_ssid_name\" s "${HOMENETS_ROOT}/set_wlan3_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_ssid_name\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_encryption\" s "${HOMENETS_ROOT}/set_wlan3_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_encryption\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_encryption_key\" s "${HOMENETS_ROOT}/set_wlan3_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_encryption_key\" i 4
+
+
+}
+
+# Gather variables from /etc/config/homenets
+conf_server=`uci get homenets.homenets_ap.conf_server`
+version=`uci get homenets.homenets_ap.version`
+#installed_version=`uci get homenets.homenets_ap.installed_version`
+img_filename=`uci get homenets.homenets_ap.img_filename`
+
+log "starting hmnet daemon."
+
+installed_version=`cat /etc/hmnet_version`
+
+# on start check whether we need to update our firmware.
+if [ "$version" != "$installed_version" ]; then
+	log "need to update to version ${version} (from ${installed_version})"
+	cd /tmp/
+	checksum_filename="${img_filename}.md5"
+	image_url=${IMAGES_SERVER}/${img_filename}
+	checksum_url=${IMAGES_SERVER}/${checksum_filename}
+	if [ -f $checksum_filename ]; then rm ${checksum_filename}; fi
+	if [ -f $img_filename ]; then rm ${img_filename}; fi
+	wget $image_url
+	wget $checksum_url
+  
+	if [ ! -f ${checksum_filename} -o ! -f ${img_filename} ]; then
+		log "cannot find img or checksum - skipping firmware update"
+	else
+		if md5sum -c ${checksum_filename}; then
+			log "updating firmware using ${img_filename}"
+			mtd -r write ${img_filename} firmware
+		else
+			log "binary image seems corrupted - skip updating... (${img_filename})"
+		fi
+	fi
+fi
+
+while true; do
+ 	error=0
+	openflow_restart=0
+
+ 	# check if snmp daemon is up.
+ 	if ! ps aux | grep -v grep | grep snmpd > /dev/null; then
+ 		log "snmpd is not running - Restarting..."
+ 		error=1
+ 		/etc/init.d/snmpd restart
+ 	fi
+
+	# check if snmp extensions are up.
+	ret="$(snmpget -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getmacaddress\" 2> /dev/null | awk -F"=" '{ print $2 }')"
+	if [ "$ret" = "$UNINIT_STRING" ]; then
+		log "SNMP Extension getmacaddress not set..."
+		set_snmp_extensions
+	fi
+ 	
+        # check if snmp_tunnel runs, if not start it again.
+	if ps aux | grep -v grep | grep "snmp_tunnel" > /dev/null
+	then
+		:
+	else
+		error=1
+		log "Starting SNMP tunnel..."
+		/usr/bin/snmp_tunnel -c ${TUNNEL_SERVER} &
+	fi
+ 	
+ 	# check ofdatapath
+ 	if ! ps aux | grep -v grep | grep ofdatapath > /dev/null; then
+ 		log "ofdatapath is not running - Restarting..."
+ 		error=1
+		openflow_restart=1
+ 	fi
+ 	
+ 	# check ofprotocol
+ 	if ! ps aux | grep -v grep | grep ofprotocol > /dev/null; then
+ 		log "ofprotocol is not running - Restarting..."
+ 		error=1
+		openflow_restart=1
+ 	fi
+ 	
+ 	# check if snmp_tunnel is connected
+ 	if ! netstat -a 2>/dev/null | grep ${SNMP_TUNNEL_PORT} | grep -v localhost | grep ESTABLISHED > /dev/null; then
+ 		log "snmp_tunnel is not connected..."
+ 		error=1
+ 	fi
+ 	
+ 	# check if openflow is connected
+ 	if ! netstat -a 2>/dev/null | grep ${OPENFLOW_PORT} | grep -v localhost | grep ESTABLISHED > /dev/null; then
+ 		log "openflow protocol is not connected..."
+ 		error=1
+ 	fi
+ 	
+ 	if [ ${error} -eq 1 ]; then
+ 		echo 0 > /sys/class/leds/tl-wr1043nd\:green\:qss/brightness
+ 	else
+ 		echo 1 > /sys/class/leds/tl-wr1043nd\:green\:qss/brightness
+ 	fi
+ 	
+	if [ ${openflow_restart} -eq 1 ]; then
+		/etc/init.d/openflow restart
+	fi
+	
+	# send a keep-alive message for discovery
+	snmptrap -v 2c -c public localhost:${SNMP_TRAPD_PORT} '' .1.3.6.1.6.3.1.1.5.3.1 1 s ${DPID} 2 i 161
+
+ 	# mae sure that uci changes in our config files get applied.
+ 	# uci commit doesn't seem to work every time...?
+ 	apply_config -a
+ 	
+ 	sleep ${CHECK_INTERVAL}
+
+done
+
+
+
