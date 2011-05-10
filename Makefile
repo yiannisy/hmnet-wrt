@@ -8,20 +8,20 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=hmnet-wrt
+PKG_NAME:=hoomenets
 PKG_RELEASE:=1
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/hmnet-wrt/Default
+define Package/hoomenets/Default
 	SECTION:=net
 	CATEGORY:=Network
 	URL:=http://www.openflowswitch.org/
 endef
 
-define Packet/hmnet-wrt/Default/description
+define Packet/hoomenets/Default/description
 	This package contains basic utilites \\\
 	for the Stanford HomeNets project.
 endef
@@ -31,13 +31,13 @@ define Build/Prepare
 	$(CP) ./src/* $(PKG_BUILD_DIR)
 endef
 
-define Package/hmnet-wrt
-  $(call Package/hmnet-wrt/Default)
+define Package/hoomenets
+  $(call Package/hoomenets/Default)
   DEPENDS:=+ucitrigger
   TITLE:=Stanford HomeNets Utilities.
 endef
 
-define Packet/hmnet-wrt/description
+define Packet/hoomenets/description
 	This package contains basic utilites \\\
 	for the Stanford HomeNets project.
 endef
@@ -57,7 +57,7 @@ define Build/Compile
 		KCC="$(KERNEL_CC)"
 endef
 
-define Package/hmnet-wrt/install
+define Package/hoomenets/install
 	$(INSTALL_DIR) $(1)/etc/init.d $(1)/etc/config
 	$(INSTALL_BIN) ./files/etc/hmnet_version $(1)/etc/
 	$(INSTALL_BIN) ./files/etc/init.d/hmnet $(1)/etc/init.d/
@@ -105,4 +105,4 @@ define Package/hmnet-wrt/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/snmp_tunnel $(1)/usr/bin/
 endef
 
-$(eval $(call BuildPackage,hmnet-wrt))
+$(eval $(call BuildPackage,hoomenets))
