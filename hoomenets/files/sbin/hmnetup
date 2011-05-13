@@ -16,7 +16,6 @@ VERSION="0.0.2"
 TUNNEL_SERVER=`uci get homenets.homenets_ap.conf_server`
 DPID=`uci get openflow.@ofswitch[0].dpid`
 SLEEP_INTERVAL=10
-IMAGES_SERVER="http://www.openflowswitch.org/downloads/openwrt-images/homenets"
 SNMP_TUNNEL_PORT=6693
 OPENFLOW_PORT=6633
 CHECK_INTERVAL=10
@@ -87,6 +86,10 @@ conf_server=`uci get homenets.homenets_ap.conf_server`
 version=`uci get homenets.homenets_ap.version`
 #installed_version=`uci get homenets.homenets_ap.installed_version`
 img_filename=`uci get homenets.homenets_ap.img_filename`
+checksum_filename="${img_filename}.md5"
+
+img_url=`uci get homenets.homenets_ap.img_url`
+checksum_url="${img_url}.md5"
 
 log "starting hmnet daemon."
 
@@ -96,12 +99,10 @@ installed_version=`cat /etc/hmnet_version`
 if [ "$version" != "$installed_version" ]; then
 	log "need to update to version ${version} (from ${installed_version})"
 	cd /tmp/
-	checksum_filename="${img_filename}.md5"
-	image_url=${IMAGES_SERVER}/${img_filename}
-	checksum_url=${IMAGES_SERVER}/${checksum_filename}
+
 	if [ -f $checksum_filename ]; then rm ${checksum_filename}; fi
 	if [ -f $img_filename ]; then rm ${img_filename}; fi
-	wget $image_url
+	wget $img_url
 	wget $checksum_url
   
 	if [ ! -f ${checksum_filename} -o ! -f ${img_filename} ]; then
