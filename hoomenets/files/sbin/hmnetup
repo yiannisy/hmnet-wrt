@@ -17,7 +17,7 @@ TUNNEL_SERVER=`uci get homenets.homenets_ap.conf_server`
 DPID=`uci get openflow.@ofswitch[0].dpid`
 SLEEP_INTERVAL=10
 SNMP_TUNNEL_PORT=6693
-OPENFLOW_PORT=6633
+OPENFLOW_PORT=6645
 CHECK_INTERVAL=10
 SNMP_TRAPD_PORT=1162
 
@@ -182,7 +182,7 @@ while true; do
 	fi
 	
 	# send a keep-alive message for discovery
-	snmptrap -v 2c -c public localhost:${SNMP_TRAPD_PORT} '' .1.3.6.1.6.3.1.1.5.3.1 1 s ${DPID} 2 i 161
+	snmptrap -v 2c -c public localhost:${SNMP_TRAPD_PORT} '' .1.3.6.1.6.3.1.1.5.3.1 1 s ${DPID} 2 i 161 2> /dev/null
 
  	# mae sure that uci changes in our config files get applied.
  	# uci commit doesn't seem to work every time...?
