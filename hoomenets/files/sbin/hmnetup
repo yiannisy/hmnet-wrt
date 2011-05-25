@@ -77,7 +77,9 @@ set_snmp_extensions () {
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_ssid_name\" s "${HOMENETS_ROOT}/set_wlan3_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_ssid_name\" i 4
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_encryption\" s "${HOMENETS_ROOT}/set_wlan3_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_encryption\" i 4
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_encryption_key\" s "${HOMENETS_ROOT}/set_wlan3_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_encryption_key\" i 4
-
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"uci_set_snmp\" s "${HOMENETS_ROOT}/uci_set_snmp.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"uci_set_snmp\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"uci_get_snmp\" s "${HOMENETS_ROOT}/uci_get_snmp.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"uci_get_snmp\" i 4
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"uci_commit_snmp\" s "${HOMENETS_ROOT}/uci_commit_snmp.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"uci_commit_snmp\" i 4
 
 }
 

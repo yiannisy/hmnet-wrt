@@ -95,6 +95,9 @@ define Package/hoomenets/install
 	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan3_ssid_name.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan3_encryption.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan3_encryption_key.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/uci_set_snmp.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/uci_get_snmp.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/uci_commit_snmp.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/config/trigger/homenets.lua $(1)/lib/config/trigger
 
 	$(INSTALL_DIR) $(1)/sbin/

@@ -14,5 +14,11 @@ uci.trigger.add {
 		package = "network",
 		action = uci.trigger.service_restart("hmnet")
 	},
+	{
+		id = "hmnet_wireless_restart",
+		title = "Restart the hmnet daemon",
+		package = "wireless",
+		action = uci.trigger.service_restart("hmnet")
+	},
 }
 
