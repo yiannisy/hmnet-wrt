@@ -1,10 +1,9 @@
 #!/usr/bin/lua
 
-wlan_name="wlan2"
+value=arg[1]
 
 require("uci")
 x = uci.cursor()
 
-x:delete("wireless",wlan_name)
-
+x:set("wireless","wlan1","ssid",value)
 x:commit("wireless")

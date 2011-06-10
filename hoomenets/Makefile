@@ -75,26 +75,34 @@ define Package/hoomenets/install
 	$(INSTALL_BIN) ./files/lib/hmnet/set_sw_version.sh $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/get_cpu_usage.sh $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/get_active_flows.sh $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/create_wlan0_ssid.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/delete_wlan0_ssid.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan0_ssid_name.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan0_encryption.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan0_encryption_key.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/create_wlan1_ssid.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/delete_wlan1_ssid.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan1_ssid_name.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan1_encryption.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan1_encryption_key.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/create_wlan2_ssid.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/delete_wlan2_ssid.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan2_ssid_name.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan2_encryption.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan2_encryption_key.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/create_wlan3_ssid.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/delete_wlan3_ssid.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan3_ssid_name.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan3_encryption.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan3_encryption_key.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan0_ssid.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan0_hidden.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan0_encr.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan0_key.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan1_ssid.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan1_hidden.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan1_encr.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan1_key.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan2_ssid.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan2_hidden.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan2_encr.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/set_wlan2_key.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan0_ssid.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan0_hidden.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan0_encr.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan0_key.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan1_ssid.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan1_hidden.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan1_encr.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan1_key.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan2_ssid.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan2_hidden.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan2_encr.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/get_wlan2_key.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/commit_homenets.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/commit_openflow.lua $(1)/lib/hmnet/
+	$(INSTALL_BIN) ./files/lib/hmnet/commit_wireless.lua $(1)/lib/hmnet/
+
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_set_snmp.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_get_snmp.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_commit_snmp.lua $(1)/lib/hmnet/

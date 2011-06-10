@@ -12,7 +12,6 @@ i2=3
 
 HOMENETS_ROOT=/lib/hmnet/
 UNINIT_STRING=' No Such Instance currently exists at this OID'
-VERSION="0.0.2"
 TUNNEL_SERVER=`uci get homenets.homenets_ap.conf_server`
 DPID=`uci get openflow.@ofswitch[0].dpid`
 SLEEP_INTERVAL=10
@@ -57,26 +56,33 @@ set_snmp_extensions () {
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getswversion\" s "${HOMENETS_ROOT}/get_sw_version.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getswversion\" i 4 2> /dev/null
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getcpuusage\" s "${HOMENETS_ROOT}/get_cpu_usage.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getcpuusage\" i 4 2> /dev/null
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"getactiveflows\" s "${HOMENETS_ROOT}/get_active_flows.sh" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"getactiveflows\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"create_wlan0_ssid\" s "${HOMENETS_ROOT}/create_wlan0_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"create_wlan0_ssid\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"delete_wlan0_ssid\" s "${HOMENETS_ROOT}/delete_wlan0_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"delete_wlan0_ssid\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_ssid_name\" s "${HOMENETS_ROOT}/set_wlan0_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_ssid_name\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_encryption\" s "${HOMENETS_ROOT}/set_wlan0_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_encryption\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_encryption_key\" s "${HOMENETS_ROOT}/set_wlan0_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_encryption_key\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"create_wlan1_ssid\" s "${HOMENETS_ROOT}/create_wlan1_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"create_wlan1_ssid\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"delete_wlan1_ssid\" s "${HOMENETS_ROOT}/delete_wlan1_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"delete_wlan1_ssid\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_ssid_name\" s "${HOMENETS_ROOT}/set_wlan1_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_ssid_name\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_encryption\" s "${HOMENETS_ROOT}/set_wlan1_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_encryption\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_encryption_key\" s "${HOMENETS_ROOT}/set_wlan1_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_encryption_key\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"create_wlan2_ssid\" s "${HOMENETS_ROOT}/create_wlan2_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"create_wlan2_ssid\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"delete_wlan2_ssid\" s "${HOMENETS_ROOT}/delete_wlan2_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"delete_wlan2_ssid\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_ssid_name\" s "${HOMENETS_ROOT}/set_wlan2_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_ssid_name\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_encryption\" s "${HOMENETS_ROOT}/set_wlan2_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_encryption\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_encryption_key\" s "${HOMENETS_ROOT}/set_wlan2_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_encryption_key\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"create_wlan3_ssid\" s "${HOMENETS_ROOT}/create_wlan3_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"create_wlan3_ssid\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"delete_wlan3_ssid\" s "${HOMENETS_ROOT}/delete_wlan3_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"delete_wlan3_ssid\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_ssid_name\" s "${HOMENETS_ROOT}/set_wlan3_ssid_name.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_ssid_name\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_encryption\" s "${HOMENETS_ROOT}/set_wlan3_encryption.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_encryption\" i 4 2> /dev/null
-	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan3_encryption_key\" s "${HOMENETS_ROOT}/set_wlan3_encryption_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan3_encryption_key\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_ssid\" s "${HOMENETS_ROOT}/set_wlan0_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_ssid\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_hidden\" s "${HOMENETS_ROOT}/set_wlan0_hidden.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_hidden\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_encr\" s "${HOMENETS_ROOT}/set_wlan0_encr.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_encr\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan0_key\" s "${HOMENETS_ROOT}/set_wlan0_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan0_key\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_ssid\" s "${HOMENETS_ROOT}/set_wlan1_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_ssid\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_hidden\" s "${HOMENETS_ROOT}/set_wlan1_hidden.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_hidden\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_encr\" s "${HOMENETS_ROOT}/set_wlan1_encr.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_encr\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan1_key\" s "${HOMENETS_ROOT}/set_wlan1_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan1_key\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_ssid\" s "${HOMENETS_ROOT}/set_wlan2_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_ssid\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_hidden\" s "${HOMENETS_ROOT}/set_wlan2_hidden.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_hidden\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_encr\" s "${HOMENETS_ROOT}/set_wlan2_encr.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_encr\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"set_wlan2_key\" s "${HOMENETS_ROOT}/set_wlan2_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"set_wlan2_key\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan0_ssid\" s "${HOMENETS_ROOT}/get_wlan0_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan0_ssid\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan0_hidden\" s "${HOMENETS_ROOT}/get_wlan0_hidden.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan0_hidden\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan0_encr\" s "${HOMENETS_ROOT}/get_wlan0_encr.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan0_encr\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan0_key\" s "${HOMENETS_ROOT}/get_wlan0_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan0_key\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan1_ssid\" s "${HOMENETS_ROOT}/get_wlan1_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan1_ssid\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan1_hidden\" s "${HOMENETS_ROOT}/get_wlan1_hidden.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan1_hidden\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan1_encr\" s "${HOMENETS_ROOT}/get_wlan1_encr.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan1_encr\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan1_key\" s "${HOMENETS_ROOT}/get_wlan1_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan1_key\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan2_ssid\" s "${HOMENETS_ROOT}/get_wlan2_ssid.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan2_ssid\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan2_hidden\" s "${HOMENETS_ROOT}/get_wlan2_hidden.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan2_hidden\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan2_encr\" s "${HOMENETS_ROOT}/get_wlan2_encr.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan2_encr\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"get_wlan2_key\" s "${HOMENETS_ROOT}/get_wlan2_key.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"get_wlan2_key\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"commit_homenets\" s "${HOMENETS_ROOT}/commit_homenets.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"commit_homenets\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"commit_openflow\" s "${HOMENETS_ROOT}/commit_openflow.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"commit_openflow\" i 4 2> /dev/null
+	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"commit_wireless\" s "${HOMENETS_ROOT}/commit_wireless.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"commit_wireless\" i 4 2> /dev/null
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"uci_set_snmp\" s "${HOMENETS_ROOT}/uci_set_snmp.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"uci_set_snmp\" i 4 2> /dev/null
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"uci_get_snmp\" s "${HOMENETS_ROOT}/uci_get_snmp.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"uci_get_snmp\" i 4 2> /dev/null
 	snmpset -Os -c public -v 2c localhost 1.3.6.1.4.1.8072.1.3.2.2.1.2.\"uci_commit_snmp\" s "${HOMENETS_ROOT}/uci_commit_snmp.lua" 1.3.6.1.4.1.8072.1.3.2.2.1.21.\"uci_commit_snmp\" i 4 2> /dev/null
@@ -185,8 +191,9 @@ while true; do
 	# send a keep-alive message for discovery
 	snmptrap -v 2c -c public localhost:${SNMP_TRAPD_PORT} '' .1.3.6.1.6.3.1.1.5.3.1 1 s ${DPID} 2 i 161 2> /dev/null
 
- 	# mae sure that uci changes in our config files get applied.
- 	# uci commit doesn't seem to work every time...?
+	# apply changes from config files
+	log "HMNET Watchdog : Changes to be commited"
+	apply_config -t
  	apply_config -a
  	
  	sleep ${CHECK_INTERVAL}
