@@ -33,7 +33,6 @@ endef
 
 define Package/hoomenets
   $(call Package/hoomenets/Default)
-  DEPENDS:=+ucitrigger
   TITLE:=Stanford HomeNets Utilities.
 endef
 
@@ -63,7 +62,7 @@ define Package/hoomenets/install
 	$(INSTALL_BIN) ./files/etc/init.d/hmnet $(1)/etc/init.d/
 	$(INSTALL_BIN) ./files/etc/config/homenets $(1)/etc/config
 
-	$(INSTALL_DIR) $(1)/lib/hmnet $(1)/lib/config/trigger
+	$(INSTALL_DIR) $(1)/lib/hmnet
 	$(INSTALL_BIN) ./files/lib/hmnet/get_of_controller.sh $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/set_of_controller.sh $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/get_conf_controller.sh $(1)/lib/hmnet/
@@ -106,7 +105,6 @@ define Package/hoomenets/install
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_set_snmp.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_get_snmp.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_commit_snmp.lua $(1)/lib/hmnet/
-	$(INSTALL_BIN) ./files/lib/config/trigger/homenets.lua $(1)/lib/config/trigger
 
 	$(INSTALL_DIR) $(1)/sbin/
 	$(INSTALL_BIN) ./files/sbin/hmnetup $(1)/sbin/
