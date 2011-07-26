@@ -193,8 +193,8 @@ while true; do
 
 	# apply changes from config files
 	log "HMNET Watchdog : Changes to be commited"
-	apply_config -t
- 	apply_config -a
+	# apply_config -t
+ 	# apply_config -a
  	
  	sleep ${CHECK_INTERVAL}
 
