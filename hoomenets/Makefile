@@ -9,7 +9,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hoomenets
-PKG_RELEASE:=0.0.8
+PKG_RELEASE:=0.0.9
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
 
