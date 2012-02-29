@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-IF_WUREKESS="wlan0"
+IF_WIRELESS="wlan0"
 # write the bitrates log filename using the serial number of the device (e.g. MAC address)
 mac_key=`ifconfig eth0.1 | awk '/eth/ { print $5 }'`	
 serial_no=${mac_key//:/}
