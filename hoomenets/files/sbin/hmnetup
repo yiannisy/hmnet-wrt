@@ -179,9 +179,9 @@ while true; do
  	fi
  	
  	if [ ${error} -eq 1 ]; then
- 		echo 0 > /sys/class/leds/tl-wr1043nd\:green\:qss/brightness
+ 		echo 0 > /sys/class/leds/tp-link\:green\:qss/brightness
  	else
- 		echo 1 > /sys/class/leds/tl-wr1043nd\:green\:qss/brightness
+ 		echo 1 > /sys/class/leds/tp-link\:green\:qss/brightness
  	fi
  	
 	# this seems to break on double restart (when openflow restarts itself...)
