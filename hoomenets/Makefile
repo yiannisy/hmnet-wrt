@@ -102,6 +102,8 @@ define Package/hoomenets/install
 	$(INSTALL_BIN) ./files/lib/hmnet/commit_openflow.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/commit_wireless.lua $(1)/lib/hmnet/
 
+	$(INSTALL_BIN) ./files/lib/hmnet/get_bitrates.sh $(1)/lib/hmnet/
+
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_set_snmp.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_get_snmp.lua $(1)/lib/hmnet/
 	$(INSTALL_BIN) ./files/lib/hmnet/uci_commit_snmp.lua $(1)/lib/hmnet/
