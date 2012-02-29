@@ -5,5 +5,5 @@ value=arg[1]
 require("uci")
 x = uci.cursor()
 
-x:set("wireless","wlan1","encryption",value)
+x:set("wireless","wlan0-1","encryption",value)
 x:commit("wireless")

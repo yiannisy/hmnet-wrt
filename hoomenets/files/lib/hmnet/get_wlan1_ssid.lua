@@ -3,5 +3,5 @@
 require("uci")
 x = uci.cursor()
 
-ret = x:get("wireless","wlan1","ssid")
+ret = x:get("wireless","wlan0-1","ssid")
 print (ret)
