@@ -1,5 +1,5 @@
 config 'ap' 'homenets_ap'
 	option 'conf_server' 'homenets.stanford.edu'
 	option 'version' '0.1.0'
-	option 'img_filename' 'homenets-20120228-sysupgrade.bin'
-	option 'img_url'      'http://yuba.stanford.edu/~yiannis/downloads/openwrt-images/homenets/homenets-20120228-sysupgrade.bin'
+	option 'img_filename' 'homenets-20120229-sysupgrade.bin'
+	option 'img_url'      'http://yuba.stanford.edu/~yiannis/downloads/openwrt-images/homenets/homenets-20120229-sysupgrade.bin'
