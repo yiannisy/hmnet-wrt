@@ -5,4 +5,4 @@ killall snmp_tunnel
 killall hmnetup
 
 #turnoff QSS led
-echo 0 > /sys/class/leds/tl-wr1043nd\:green\:qss/brightness
+echo 0 > /sys/class/leds/tp-link\:green\:qss/brightness
