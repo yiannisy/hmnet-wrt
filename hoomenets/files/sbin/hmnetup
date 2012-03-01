@@ -155,6 +155,14 @@ while true; do
 		/usr/bin/snmp_tunnel -c ${TUNNEL_SERVER} &
 	fi
  	
+	# check if get_bitrates runs, if not start it again.
+	if ! ps aux | grep -v grep | grep "get_bitrates.sh" > /dev/null; then
+	    log "get_bitrates is not running - Restarting..."
+	    ${HOMENETS_ROOT}/get_bitrates.sh &
+	fi
+
+
+
  	# check ofdatapath
  	if ! ps aux | grep -v grep | grep ofdatapath > /dev/null; then
  		log "ofdatapath is not running - Restarting..."
