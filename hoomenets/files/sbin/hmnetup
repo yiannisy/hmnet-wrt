@@ -109,8 +109,11 @@ if [ "$version" != "$installed_version" ]; then
 
 	if [ -f $checksum_filename ]; then rm ${checksum_filename}; fi
 	if [ -f $img_filename ]; then rm ${img_filename}; fi
-	wget $img_url
-	wget $checksum_url
+	# wget behaves stupidly. Subsequent wgets occasionally don't work.
+	# -o parameter seems to make the trick, but this is an ugly hack.
+	if [ -f "/var/log/wget.log" ]; then rm "/var/log/wget.log" ; fi
+	wget -o /var/log/wget.log $img_url
+	wget -o /var/log/wget.log $checksum_url
   
 	if [ ! -f ${checksum_filename} -o ! -f ${img_filename} ]; then
 		log "cannot find img or checksum - skipping firmware update"
